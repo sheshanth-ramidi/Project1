@@ -6,7 +6,7 @@ pipeline {
         AWS_ACCOUNT_ID = "741960641924"
         ECR_REPO       = "741960641924.dkr.ecr.ap-south-1.amazonaws.com/devops-app"
         IMAGE_NAME     = "devops-app"
-        EKS_CLUSTER    = "devops-cluster"   // <-- put your real cluster name
+        EKS_CLUSTER    = "devops-cluster"   // <-- your actual EKS cluster name
     }
  
     stages {
@@ -61,7 +61,7 @@ pipeline {
  
         stage('Update kubeconfig') {
             steps {
-                echo "Updating kubeconfig for EKS cluster"
+                echo "Updating kubeconfig for EKS"
                 withCredentials([
                     [$class: 'AmazonWebServicesCredentialsBinding',
                      credentialsId: 'aws-creds']
@@ -76,19 +76,20 @@ pipeline {
         }
  
         stage('Deploy to EKS') {
-    steps {
-        echo "Deploying application to EKS"
-        withCredentials([
-            [$class: 'AmazonWebServicesCredentialsBinding',
-             credentialsId: 'aws-creds']
-        ]) {
-            sh '''
-              kubectl apply -f deployment.yaml
-              kubectl apply -f service.yaml
-            '''
+            steps {
+                echo "Deploying application to EKS"
+                withCredentials([
+                    [$class: 'AmazonWebServicesCredentialsBinding',
+                     credentialsId: 'aws-creds']
+                ]) {
+                    sh '''
+                      kubectl apply -f deployment.yaml
+                      kubectl apply -f service.yaml
+                    '''
+                }
+            }
         }
     }
-}
  
     post {
         success {
