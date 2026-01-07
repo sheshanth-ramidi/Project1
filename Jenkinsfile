@@ -2,9 +2,9 @@ pipeline {
     agent any
  
     environment {
-        AWS_REGION = "<AWS_REGION>"
-        AWS_ACCOUNT_ID = "<AWS_ACCOUNT_ID>"
-        ECR_REPO = "$741960641924.dkr.ecr.ap-south-1.amazonaws.com/devops-app"
+        AWS_REGION = "ap-south-1"
+        AWS_ACCOUNT_ID = "741960641924"
+        ECR_REPO = "741960641924.dkr.ecr.ap-south-1.amazonaws.com/devops-app"
         IMAGE_NAME = "devops-app"
         EKS_CLUSTER = "<EKS_CLUSTER_NAME>"
     }
